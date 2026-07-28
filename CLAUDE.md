@@ -87,3 +87,11 @@ Deployed at https://github.com/zaitianzhiya/semiconductor-equipment-weekly. Two 
 | Watchdog | 3x Monday | Self-healing: dispatches weekly if missed |
 
 Reports published to `output/weekly/YYYY/YYYY-Www.md`.
+
+## 关键实现要求
+
+- **双语标题**: 所有表格的事件列必须使用中英文双语格式。EN标题为主文本，CN翻译放在 `<br/><small>` 标签中。
+- **实现路径**: `markdown_weekly.py` 中的 `_event_title()` 方法 + `main.py` 中的 `_generate_cn_titles()` LLM批量翻译全部事件
+- **Fallback**: 所有项目必须有足够大的 `_PREPROCESS` 字典（30+对），保证无LLM时的基本可读性
+- **LLM速率保护**: LLM翻译使用 `BATCH_SIZE=15` + `time.sleep(2)` + 3次重试，避免Gemini 429错误
+- **审核**: 首次部署后检查 `grep '<br/><small>' output/` 确认双语渲染

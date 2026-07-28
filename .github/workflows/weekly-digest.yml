@@ -4,7 +4,7 @@ name: Equipment Weekly Digest
 
 on:
   schedule:
-    - cron: '22 10 * * 1'
+    - cron: '15 10 * * 1'
   workflow_dispatch: {}
 
 concurrency:
