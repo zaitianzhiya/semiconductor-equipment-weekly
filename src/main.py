@@ -284,23 +284,31 @@ def _generate_cn_titles(records: list[EventRecord]) -> None:
             + "\n".join(lines)
         )
 
-        try:
-            result = client.chat(
-                "You are a semiconductor equipment industry translator. Translate English news headlines "
-                "into fluent, concise Chinese. Preserve technical acronyms. Output format: "
-                "N. Chinese translation -- one numbered line per headline, no extra text.",
-                prompt, temperature=0.1,
-            )
-            for line in result.strip().split("\n"):
-                line = line.strip()
-                parts = line.split(". ", 1)
-                if len(parts) == 2 and parts[0].isdigit():
-                    idx = int(parts[0]) - 1
-                    if 0 <= idx < len(batch):
-                        id_to_cn[batch[idx].event_id] = parts[1].strip()
-        except Exception as e:
-            print(f"  [CN translate] Batch {batch_start // BATCH_SIZE + 1} failed: {e}")
-            continue
+        for attempt in range(3):
+            try:
+                import time
+                if attempt > 0:
+                    time.sleep(60)  # wait for rate-limit window to reset
+                result = client.chat(
+                    "You are a semiconductor equipment industry translator. Translate English news headlines "
+                    "into fluent, concise Chinese. Preserve technical acronyms. Output format: "
+                    "N. Chinese translation \u2014 one numbered line per headline, no extra text.",
+                    prompt, temperature=0.1,
+                )
+                for line in result.strip().split("\n"):
+                    line = line.strip()
+                    parts = line.split(". ", 1)
+                    if len(parts) == 2 and parts[0].isdigit():
+                        idx = int(parts[0]) - 1
+                        if 0 <= idx < len(batch):
+                            id_to_cn[batch[idx].event_id] = parts[1].strip()
+                break
+            except Exception as e:
+                print(f"  [CN translate] Batch {batch_start // BATCH_SIZE + 1} attempt {attempt + 1} failed: {str(e)[:80]}")
+                if attempt == 2:
+                    print(f"  [CN translate] Batch {batch_start // BATCH_SIZE + 1} exhausted retries, using keyword preprocess")
+        import time
+        time.sleep(2)  # rate limiting guard
 
     for r in records:
         if r.event_id in id_to_cn and id_to_cn[r.event_id]:
