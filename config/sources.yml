@@ -1,0 +1,206 @@
+# ── Semiconductor Equipment Weekly Digest — 信息来源配置 (25 sources × 6生态) ──
+# 分层：Tier 1 = DDG 真实搜索, Tier 2 = 关键词骨架
+# 类型: web_search = DDG 新闻
+
+sources:
+  # ═══ Tier 1 — 一手信息源 (DDG 真实搜索, 18 sources) ═══
+  ee_equipment:
+    name: "EE Times Equipment"
+    tier: 1
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["EE Times semiconductor equipment", "semiconductor manufacturing tool", "wafer fab equipment news"]
+    max_items: 5
+
+  semi_org:
+    name: "SEMI Equipment"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["SEMI equipment report", "semiconductor equipment billings", "WFE market forecast"]
+    max_items: 5
+
+  applied_materials:
+    name: "Applied Materials"
+    tier: 1
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["Applied Materials news", "AMAT semiconductor equipment", "semiconductor deposition etch"]
+    max_items: 5
+
+  lam_research:
+    name: "Lam Research"
+    tier: 1
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["Lam Research news", "semiconductor etch deposition", "Lam wafer fab equipment"]
+    max_items: 5
+
+  tel:
+    name: "Tokyo Electron"
+    tier: 1
+    ecosystem: jp_equip
+    type: web_search
+    keywords: ["Tokyo Electron TEL news", "TEL semiconductor equipment", "Japan chip equipment"]
+    max_items: 5
+
+  kla:
+    name: "KLA Corporation"
+    tier: 1
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["KLA semiconductor inspection", "KLA metrology news", "wafer defect detection"]
+    max_items: 5
+
+  asml:
+    name: "ASML"
+    tier: 1
+    ecosystem: eu_equip
+    type: web_search
+    keywords: ["ASML EUV High-NA news", "ASML lithography shipment", "semiconductor lithography equipment"]
+    max_items: 5
+
+  naura:
+    name: "北方华创 NAURA"
+    tier: 1
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["北方华创 半导体设备", "NAURA semiconductor equipment", "中国刻蚀沉积设备"]
+    max_items: 5
+
+  amec:
+    name: "中微公司 AMEC"
+    tier: 1
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["中微公司 刻蚀设备", "AMEC semiconductor etch", "中国半导体设备突破"]
+    max_items: 5
+
+  piotech:
+    name: "拓荆科技 Piotech"
+    tier: 1
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["拓荆科技 CVD设备", "Piotech semiconductor deposition", "中国薄膜沉积设备"]
+    max_items: 5
+
+  acm:
+    name: "盛美上海 ACM Research"
+    tier: 1
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["盛美上海 清洗设备", "ACM Research wafer cleaning", "中国半导体清洗设备"]
+    max_items: 5
+
+  digitimes_equip:
+    name: "DIGITIMES Equipment"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["DIGITIMES semiconductor equipment", "Taiwan fab equipment supply chain", "wafer fab tool procurement"]
+    max_items: 5
+
+  nikkei_equip:
+    name: "Nikkei Semiconductor Equipment"
+    tier: 1
+    ecosystem: jp_equip
+    type: web_search
+    keywords: ["Nikkei Asia semiconductor equipment", "Japan chip tool maker", "Japanese wafer fab equipment"]
+    max_items: 5
+
+  eet_asia_equip:
+    name: "EE Times Asia Equipment"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["EE Times Asia semiconductor equipment", "Asia chip manufacturing tool", "Asia semiconductor fab equipment"]
+    max_items: 5
+
+  scmp_equip:
+    name: "SCMP Semiconductor Equipment"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["SCMP semiconductor equipment", "China chip equipment sanctions", "China semiconductor manufacturing tool"]
+    max_items: 3
+
+  reuters_equip:
+    name: "Reuters Semiconductor Equipment"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["Reuters semiconductor equipment", "chip equipment maker earnings", "semiconductor manufacturing tool industry"]
+    max_items: 5
+
+  bloomberg_equip:
+    name: "Bloomberg Semiconductor Manufacturing"
+    tier: 1
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["Bloomberg semiconductor manufacturing", "chip equipment capex", "wafer fab investment tool"]
+    max_items: 3
+
+  cn_equip_media:
+    name: "中国半导体设备媒体"
+    tier: 1
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["半导体设备 国产替代", "中国半导体设备 突破", "光刻机 刻蚀机 国产化"]
+    max_items: 5
+
+  # ═══ Tier 2 — 二手聚合/垂直源 (关键词骨架, 7 sources) ═══
+  vlsir:
+    name: "VLSI Research"
+    tier: 2
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["VLSI Research semiconductor equipment", "chip equipment market share", "wafer fab equipment ranking"]
+    max_items: 3
+
+  theinfornet:
+    name: "The Information Network"
+    tier: 2
+    ecosystem: us_equip
+    type: web_search
+    keywords: ["The Information Network semiconductor equipment", "equipment market analysis", "semiconductor capital equipment"]
+    max_items: 3
+
+  techinsights_equip:
+    name: "TechInsights Equipment"
+    tier: 2
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["TechInsights semiconductor equipment", "chip process equipment teardown", "semiconductor manufacturing analysis"]
+    max_items: 3
+
+  yole_equip:
+    name: "Yole Group Equipment"
+    tier: 2
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["Yole semiconductor equipment market", "advanced packaging equipment", "wafer fab equipment forecast"]
+    max_items: 3
+
+  ic_insights:
+    name: "IC Insights"
+    tier: 2
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["IC Insights semiconductor capital spending", "chip equipment market forecast", "semiconductor equipment spending"]
+    max_items: 3
+
+  semi_equip_report:
+    name: "SEMI Equipment Reports"
+    tier: 2
+    ecosystem: global_equip
+    type: web_search
+    keywords: ["SEMI year-end equipment forecast", "semiconductor equipment market data", "WFE spending report"]
+    max_items: 3
+
+  china_equip_report:
+    name: "中国设备行业报告"
+    tier: 2
+    ecosystem: cn_equip
+    type: web_search
+    keywords: ["中国半导体设备行业报告", "国产设备 市场分析", "半导体设备 国产化率"]
+    max_items: 3

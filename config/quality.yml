@@ -1,0 +1,31 @@
+# -- Semiconductor Equipment Weekly Digest -- 质量评分配置 --
+
+scoring:
+  tech_significance: 30      # Technology breakthrough weight
+  market_impact: 25          # Market/financial impact
+  supply_chain: 20           # Supply chain criticality
+  geopolitical: 15           # Geopolitics/trade weight
+  industry_novelty: 10       # Novelty/innovation
+  tier_1_weight: 40
+  tier_2_weight: 25
+  max_score: 100
+  grades:
+    A: 80
+    B: 60
+    C: 30
+    D: 0
+
+# 生态系统独立权重（用于交叉验证）
+ecosystem_weights:
+  us_equip: 1.0       # 美国设备商信息 (Applied, Lam, KLA)
+  jp_equip: 1.0       # 日本设备商信息 (TEL, Disco, Ebara, Nikon)
+  eu_equip: 1.0       # 欧洲设备商信息 (ASML, ASM, Besi, EVG)
+  cn_equip: 0.9       # 中国设备商信息 (NAURA, AMEC, ACM, Piotech)
+  kr_equip: 0.8       # 韩国设备相关
+  global_equip: 0.9   # 全球综合媒体 (Reuters, Bloomberg, Nikkei, DIGITIMES)
+
+filter:
+  min_title_length: 10
+  min_desc_length: 30
+  require_citation: true
+  max_age_days: 14

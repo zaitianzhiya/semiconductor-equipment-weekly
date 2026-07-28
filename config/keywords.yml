@@ -1,0 +1,49 @@
+# ── Semiconductor Equipment Weekly Digest — Keywords Config ──
+
+# Positive keywords (confidence boost when matched)
+positive:
+  # Lithography / 光刻
+  - EUV, High-NA, DUV, lithography, 光刻
+  # Etch / 刻蚀
+  - etch, 刻蚀, plasma, CCP, ICP, RIE
+  # Deposition / 薄膜沉积
+  - CVD, PVD, ALD, deposition, 薄膜沉积
+  # CMP / 平坦化
+  - CMP, planarization, 平坦化, 抛光
+  # Metrology & Inspection / 量检测
+  - metrology, inspection, 量检测, 缺陷检测
+  # Cleaning / 清洗
+  - cleaning, 清洗, single wafer, batch
+  # Ion Implant / 离子注入
+  - ion implant, 离子注入, beamline
+  # Thermal / 热处理
+  - thermal, furnace, RTP, 热处理
+  # Advanced Packaging / 先进封装
+  - hybrid bonding, 混合键合, wafer bonding
+  # Transistor architecture
+  - GAA, gate-all-around, nanosheet
+  # Memory / Packaging drivers
+  - HBM, 3D NAND, 3DIC, advanced packaging
+  # WFE
+  - wafer fab, fab equipment, WFE
+  # Semiconductor manufacturing
+  - semiconductor manufacturing
+  # China localization
+  - 国产替代, 自主可控, 国产化
+  # Geopolitics
+  - CHIPS Act, export control, 出口管制
+
+# Negative keywords (demote / filter out)
+negative:
+  - crypto, blockchain, NFT
+  - pump and dump, meme stock
+  - esports, gaming (unrelated)
+  - AI chatbot, social media (unrelated)
+
+# Tracked companies
+tracked_companies:
+  - ASML, Applied Materials, Lam Research, TEL, KLA
+  - Canon, Nikon, Disco, Ebara, ASM International
+  - 北方华创, 中微公司, 拓荆科技, 盛美上海
+  - 华海清科, 芯源微, 中科飞测
+  - Teradyne, Advantest, Besi, EV Group

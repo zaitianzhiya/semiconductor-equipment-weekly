@@ -1,0 +1,57 @@
+# ── Semiconductor Equipment Weekly Digest — Weekly Full Pipeline ──
+# Cron: UTC 22:10 Monday = Beijing 06:10 Tuesday
+name: Equipment Weekly Digest
+
+on:
+  schedule:
+    - cron: '22 10 * * 1'
+  workflow_dispatch: {}
+
+concurrency:
+  group: equipment-weekly-digest
+  cancel-in-progress: false
+
+jobs:
+  weekly-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt --break-system-packages
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "zaitianzhiya"
+          git config --global user.email "zaitianzhiya@users.noreply.github.com"
+
+      - name: Pull latest (avoid race condition)
+        run: git pull --rebase origin main
+
+      - name: Run weekly pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python run.py --mode weekly
+
+      - name: Commit and push report
+        run: |
+          git add -f output/
+          git add -f data/state.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Weekly: $(date +'%Y-W%V') 半导体设备周报"
+            git pull --rebase origin main
+            git push origin main
+          fi

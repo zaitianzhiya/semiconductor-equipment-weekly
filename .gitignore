@@ -1,0 +1,21 @@
+# Ignore Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Output
+output/
+
+# Data cache
+data/state.json
+data/dedup_state.json
+
+# Environment
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
