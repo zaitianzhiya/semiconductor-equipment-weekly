@@ -10,9 +10,14 @@ from src.collectors.base import EventRecord
 class MarkdownRenderer:
     """Render weekly reports with separate link and poster image columns."""
 
-    def __init__(self, output_dir: str):
+    def __init__(self, output_dir: str, category_order: list[str] | None = None):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.category_order = category_order
+
+    @staticmethod
+    def _cell(value) -> str:
+        return str(value).replace("|", "\\|").replace("\n", " ")
 
     def _event_title(self, r: EventRecord) -> str:
         """Bilingual title: English (main) + Chinese subtitle via <br> if available."""
@@ -37,7 +42,7 @@ class MarkdownRenderer:
     ) -> str:
         """Generate the main weekly report Markdown file."""
         now = datetime.utcnow()
-        week_str = os.environ.get("REPORT_WEEK") or now.strftime("%Y-W%V")
+        week_str = os.environ.get("REPORT_WEEK") or now.strftime("%G-W%V")
 
         lines = [
             "---",
@@ -72,9 +77,9 @@ class MarkdownRenderer:
             title_col = self._event_title(r)
             link_col = f"[🔗]({r.url})" if r.url else "-"
             lines.append(
-                f"| {i} | {title_col} | {link_col} | {poster} | {r.organization} | "
+                f"| {i} | {self._cell(title_col)} | {self._cell(link_col)} | {self._cell(poster)} | {self._cell(r.organization)} | "
                 f"{r.confidence_grade}({r.confidence_score:.0f}) | "
-                f"{r.independent_ecosystems} | {cats} |"
+                f"{self._cell(r.independent_ecosystems)} | {self._cell(cats)} |"
             )
 
         lines.extend(["", "---", ""])
@@ -82,7 +87,11 @@ class MarkdownRenderer:
         lines.append("## 分类整理")
         lines.append("")
         cats = self._group_by_category(records)
-        for cat, crecs in sorted(cats.items()):
+        cat_order = {name: i for i, name in enumerate(self.category_order or [])}
+        def cat_key(item):
+            name = item[0]
+            return (10**6 if name == "未分类" else cat_order.get(name, 10**5), name)
+        for cat, crecs in sorted(cats.items(), key=cat_key):
             lines.append(f"### {cat}")
             lines.append("")
             lines.append("| # | 事件 | 链接 | 海报 | 组织 | 可信度 |")
@@ -92,7 +101,7 @@ class MarkdownRenderer:
                 title_col = self._event_title(r)
                 link_col = f"[🔗]({r.url})" if r.url else "-"
                 lines.append(
-                    f"| {i} | {title_col} | {link_col} | {poster} | {r.organization} | "
+                    f"| {i} | {self._cell(title_col)} | {self._cell(link_col)} | {self._cell(poster)} | {self._cell(r.organization)} | "
                     f"{r.confidence_grade} |"
                 )
             lines.append("")
@@ -116,7 +125,7 @@ class MarkdownRenderer:
         ])
 
         content = "\n".join(lines)
-        week_dir = self.output_dir / "weekly" / now.strftime("%Y")
+        week_dir = self.output_dir / "weekly" / week_str.split("-")[0]
         week_dir.mkdir(parents=True, exist_ok=True)
         (week_dir / f"{week_str}.md").write_text(content, encoding="utf-8")
         return content

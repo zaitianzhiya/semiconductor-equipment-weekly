@@ -120,11 +120,22 @@ class RealSearchCollector(BaseCollector):
         elif self.src_type == "api" and self.topics:
             results = _fetch_github_topics(self.topics, self.gh_token, self.max_items)
         elif self.keywords and self.tier == 1:
-            # Tier 1: real DDG search with first keyword
-            q = f"{self.source_name} {self.keywords[0]}"
-            results = _fetch_ddg(q, max_results=self.max_items)
+            # Tier 1: real DDG search, merging results across the first keywords
+            results = []
+            seen_urls = set()
+            for kw in self.keywords[:2]:
+                q = f"{self.source_name} {kw}"
+                for item in _fetch_ddg(q, max_results=self.max_items):
+                    u = (item.get("url") or "").strip()
+                    if u and u not in seen_urls:
+                        seen_urls.add(u)
+                        results.append(item)
+                if len(results) >= self.max_items:
+                    break
             if not results:
-                return self._skeleton()
+                print(f"    [{self.source_key}] Tier 1 source returned no results — skeleton skipped")
+                return []
+
         else:
             return self._skeleton()
 
@@ -133,9 +144,12 @@ class RealSearchCollector(BaseCollector):
     def _build_records(self, results: list[dict]) -> list[EventRecord]:
         records = []
         for r in results[:self.max_items]:
-            eid = hashlib.md5(r["url"].encode()).hexdigest()[:12]
+            if not (r.get("url") or "").strip() or not (r.get("title") or "").strip():
+                continue
+            norm_url = r["url"].strip().lower().rstrip("/").split("?")[0].split("#")[0]
+            eid = hashlib.md5(norm_url.encode()).hexdigest()[:12]
             records.append(EventRecord(
-                event_id=f"{self.source_key}:{eid}",
+                event_id=f"evt:{eid}",
                 title=r.get("title", "")[:200],
                 description=r.get("snippet", ""),
                 url=r.get("url", ""),
@@ -153,7 +167,7 @@ class RealSearchCollector(BaseCollector):
     def _skeleton(self) -> list[EventRecord]:
         records = []
         for kw in self.keywords[:self.max_items]:
-            eid = hashlib.md5(f"{self.source_key}:{kw}:{datetime.utcnow().strftime('%Y-W%V')}".encode()).hexdigest()[:12]
+            eid = hashlib.md5(f"{self.source_key}:{kw}:{datetime.utcnow().strftime('%G-W%V')}".encode()).hexdigest()[:12]
             records.append(EventRecord(
                 event_id=f"{self.source_key}:{eid}",
                 title=f"[{self.source_name}] {kw}",
