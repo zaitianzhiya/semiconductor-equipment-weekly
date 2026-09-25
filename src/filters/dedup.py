@@ -1,5 +1,6 @@
 """Deduplicator — JSON-backed state tracking across weeks."""
 
+import os
 import json
 from datetime import datetime
 from pathlib import Path
@@ -17,6 +18,10 @@ class Deduplicator:
             self.data_dir = Path("data")
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.state_file = self.data_dir / "dedup_state.json"
+        week_override = os.environ.get("REPORT_WEEK")
+        if week_override:
+            self.state_file = self.data_dir / f"dedup_state_{week_override}.json"
+
         self.state = self._load_state()
 
     def _load_state(self) -> dict:

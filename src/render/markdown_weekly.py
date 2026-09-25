@@ -1,5 +1,6 @@
 """Markdown renderer — weekly report with link + poster columns."""
 
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -36,7 +37,7 @@ class MarkdownRenderer:
     ) -> str:
         """Generate the main weekly report Markdown file."""
         now = datetime.utcnow()
-        week_str = now.strftime("%Y-W%V")
+        week_str = os.environ.get("REPORT_WEEK") or now.strftime("%Y-W%V")
 
         lines = [
             "---",
